@@ -1,45 +1,46 @@
-name: Build and Deploy Resume
+name: Deploy Resume to GitHub Pages
 
 on:
   push:
-    branches:
-      - master
+    branches: [main]  # 또는 원하는 브랜치
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
 
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build Spring Boot app
+        run: ./gradlew bootJar
 
-      - name: Start Spring Boot app
-        run: nohup java -jar build/libs/resume.jar &
-
-      - name: Wait for app to start
-        run: sleep 15
+      - name: Run Spring Boot app in background
+        run: |
+          nohup java -jar build/libs/*.jar &
+          sleep 20  # API 서버 기동 대기
 
       - name: Create docs directory
         run: mkdir -p docs
 
-      - name: Fetch generated HTML from API
+      - name: Fetch resume HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
 
       - name: Disable Jekyll
         run: touch docs/.nojekyll
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+      - name: Commit and push to main
+        run: |
+          git config --global user.name "w-garden"
+          git config --global user.email "w.garden316@github.com"
+          git add docs/
+          git commit -m "Update resume HTML via GitHub Actions" || echo "No changes to commit"
+          git push
