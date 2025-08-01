@@ -33,14 +33,21 @@ jobs:
           for i in {1..30}; do
             if curl -s http://localhost:8080/resume/html; then
               echo "Server is up!"
-              break
+              exit 0
             fi
             echo "Waiting for server... ($i)"
             sleep 2
           done
+          echo "Server did not start in time. Showing logs:"
+          cat server.log || echo "No logs found"
+          exit 1
 
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
+
+      - name: Show server logs (for debugging)
+        if: always()
+        run: cat server.log || echo "No logs"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
