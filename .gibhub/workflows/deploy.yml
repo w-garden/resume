@@ -34,6 +34,9 @@ jobs:
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
 
+      - name: Disable Jekyll
+        run: touch docs/.nojekyll
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
