@@ -45,6 +45,7 @@ jobs:
       - name: Create docs directory
         run: mkdir -p docs
 
+
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
 
