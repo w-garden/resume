@@ -3,7 +3,7 @@ name: Build and Deploy Resume
 on:
   push:
     branches:
-      - main  # 본인 기본 브랜치 이름으로 수정하세요
+      - master  # 본인 기본 브랜치 이름으로 수정하세요
 
 jobs:
   build-and-deploy:
