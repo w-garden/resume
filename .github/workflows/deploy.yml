@@ -19,16 +19,25 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Gradle
+      - name: Build Spring Boot app (bootJar)
         run: |
           chmod +x ./gradlew
-          ./gradlew build --debug build
+          ./gradlew bootJar
 
-      - name: Start Spring Boot app
-        run: nohup java -jar build/libs/resume.jar &
+      - name: Start Spring Boot app in background
+        run: |
+          nohup java -jar build/libs/*.jar --server.port=8080 > server.log 2>&1 &
 
-      - name: Wait for app to start
-        run: sleep 15
+      - name: Wait until server is ready
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:8080/resume/html; then
+              echo "Server is up!"
+              break
+            fi
+            echo "Waiting for server... ($i)"
+            sleep 2
+          done
 
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
