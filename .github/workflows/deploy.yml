@@ -1,45 +1,38 @@
-name: Build Resume and Deploy to GitHub Pages
+name: Build and Deploy Resume
 
 on:
   push:
-    branches: master
+    branches:
+      - master
 
 jobs:
-  build-and-deploy:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
-      - name: Build Spring Boot App
-        run: ./gradlew bootJar
+      - name: Build with Gradle
+        run: ./gradlew build
 
-      - name: Run Spring Boot App in background
-        run: |
-          java -jar build/libs/*.jar &
-          sleep 10
+      - name: Start Spring Boot app
+        run: nohup java -jar build/libs/resume.jar &
 
-      - name: Create docs folder
-        run: mkdir -p docs
+      - name: Wait for app to start
+        run: sleep 15
 
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
 
-      - name: Disable Jekyll (GitHub Pages)
-        run: touch docs/.nojekyll
-
-      - name: Commit and Push to main
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add docs/
-          git commit -m "Update resume HTML"
-          git push
-        continue-on-error: true
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
