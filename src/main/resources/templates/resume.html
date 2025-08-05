@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Resume</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1 th:text="${name}">[이름]</h1>
+<h2>Skills</h2>
+<ul>
+    <li th:each="skill : ${skills}" th:text="${skill}">[기술]</li>
+</ul>
+</body>
+</html>
