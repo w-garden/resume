@@ -29,45 +29,71 @@ public class ResumeController {
 
     @GetMapping("/resume/html")
     public String getResume(Model model) {
+
         model.addAttribute("name", "신호철");
         model.addAttribute("title", "Java 백엔드 개발자");
-        model.addAttribute("summary", "REST API와 DB설계에 강점이 있는 백엔드 개발자입니다.");
-        model.addAttribute("email", "you@example.com");
-        model.addAttribute("phone", "010-1234-5678");
+        model.addAttribute("email", "w.garden316@gmail.com");
         model.addAttribute("github", "https://github.com/w-garden");
-        model.addAttribute("skills", List.of("Java", "Spring Boot", "MySQL", "JPA", "Thymeleaf"));
+        model.addAttribute("notion", "https://www.notion.so/DevNote-7864e5a4c87642dca6926b12a5f99e8f?pvs=21");
+        model.addAttribute("summary", "현재 3년차 백엔드 개발자로 PG사에서 실무 경험을 쌓고 있으며...");
 
-        model.addAttribute("projects", List.of(
-                Map.of(
-                        "name", "이커머스 플랫폼",
-                        "period", "2023.01 ~ 2023.06",
-                        "description", "쇼핑몰 백엔드 API 및 관리자 페이지 개발",
-                        "tasks", List.of("상품 CRUD API 개발", "결제 연동", "Spring Security 로그인 구현"),
-                        "stack", "Spring Boot, MySQL, Redis"
-                ),
-                Map.of(
-                        "name", "포트폴리오 웹사이트",
-                        "period", "2024.01 ~ 2024.02",
-                        "description", "이력서 기반 포트폴리오 자동 생성기",
-                        "tasks", List.of("Markdown to HTML 변환", "GitHub Actions 자동 배포"),
-                        "stack", "Spring Boot, Thymeleaf, GitHub Actions"
-                )
-        ));
-
-        model.addAttribute("education", List.of(
-                Map.of("school", "서울대학교", "degree", "컴퓨터공학과", "period", "2017 ~ 2021")
+        model.addAttribute("skills", Map.of(
+                "Back-End", List.of("Java", "Spring Framework", "JPA", "MyBatis", "Maven", "Gradle"),
+                "Front-End", List.of("JavaScript(ES6)", "HTML5", "CSS3", "Nexacro"),
+                "Database", List.of("Oracle", "MySQL"),
+                "DevOps", List.of("Linux", "Tomcat", "Jeus", "Wildfly"),
+                "Tools", List.of("Git", "SVN", "IntelliJ", "Eclipse", "Slack", "Mattermost", "Notion")
         ));
 
         model.addAttribute("experiences", List.of(
-                Map.of("company", "카카오", "role", "백엔드 개발자", "period", "2022 ~ 현재")
+                Map.of(
+                        "company", "KG이니시스",
+                        "role", "Java & Spring 백엔드 개발자",
+                        "period", "2023.01 ~ 현재",
+                        "description", List.of(
+                                "대규모 트래픽 환경에서의 API / Batch 개발",
+                                "사내 백오피스, 가맹점 관리자 페이지 개발 및 운영",
+                                "IDC 인프라 기반 시스템 운영 경험 등"
+                        )
+                )
         ));
 
-        model.addAttribute("awards", List.of(
-                "정보처리기사 자격증",
-                "2023 국민취업지원 우수상 수상"
+        model.addAttribute("projects", List.of(
+                Map.of(
+                        "title", "배달의민족 차액정산 백엔드 시스템 고도화",
+                        "period", "2024.12 ~ 2025.05",
+                        "stack", "Java, Spring, MyBatis, Oracle, Linux, REST API",
+                        "details", List.of(
+                                "SFTP 자동화 배치 모듈 개발",
+                                "OutOfMemoryError 해결 – MyBatis ResultHandler 적용",
+                                "Slack 기반 협업 및 모니터링"
+                        )
+                ),
+                Map.of(
+                        "title", "신용카드 365 매입 프로세스 구축",
+                        "period", "2024.04 ~ 2024.08",
+                        "stack", "Java, Spring, MyBatis, Oracle",
+                        "details", List.of(
+                                "매입 검증 로직 분석 및 Java 이관",
+                                "복잡한 PL/SQL → Java 코드로 재설계"
+                        )
+                )
+                // ...다른 프로젝트 추가 가능
+        ));
+
+        model.addAttribute("education", List.of(
+                Map.of("school", "KGITBANK 부트캠프", "period", "2022.06 ~ 2022.11"),
+                Map.of("school", "KGITBANK 단과 수업", "period", "2022.01 ~ 2022.04")
+        ));
+
+        model.addAttribute("certificates", List.of(
+                "정보처리기사 (2022.09.02 취득)"
         ));
 
         return "resume";
     }
+
+
+
 
 }
