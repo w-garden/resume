@@ -46,7 +46,7 @@ jobs:
         run: mkdir -p docs
 
       - name: Copy CSS into docs folder
-        run: cp src/main/resources/static/style.css docs/*.css
+        run: cp src/main/resources/static/style.css docs/style.css
 
       - name: Fetch generated HTML from API
         run: curl http://localhost:8080/resume/html -o docs/index.html
