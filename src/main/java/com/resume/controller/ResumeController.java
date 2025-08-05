@@ -17,7 +17,7 @@ public class ResumeController {
 
     @GetMapping("/resume/html")
     public String getResumeHtml() throws Exception {
-        String markdown = Files.readString(Path.of("index.html"));
+        String markdown = Files.readString(Path.of("login.html"));
         Node document = parser.parse(markdown);
         return renderer.render(document);
     }
