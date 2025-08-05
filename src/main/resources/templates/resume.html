@@ -1,15 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>My Resume</title>
-    <link rel="stylesheet" href="style.css">
+    <title>이력서 – 신호철</title>
+    <link rel="stylesheet" th:href="@{style.css}" href="style.css">
 </head>
 <body>
-<h1 th:text="${name}">[이름]</h1>
-<h2>Skills</h2>
-<ul>
-    <li th:each="skill : ${skills}" th:text="${skill}">[기술]</li>
-</ul>
+<div class="container">
+    <header>
+        <h1 th:text="${name}">신호철</h1>
+        <p th:text="${title}">Java 백엔드 개발자</p>
+        <p th:text="${summary}">자기소개</p>
+    </header>
+
+    <section>
+        <h2>📞 연락처</h2>
+        <ul>
+            <li>Email: <span th:text="${email}">email@example.com</span></li>
+            <li>Phone: <span th:text="${phone}">010-1234-5678</span></li>
+            <li>GitHub: <a th:href="${github}" th:text="${github}">github.com/w-garden</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>💻 기술 스택</h2>
+        <ul>
+            <li th:each="skill : ${skills}" th:text="${skill}">Java</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>🧪 프로젝트 경험</h2>
+        <div th:each="project : ${projects}">
+            <h3 th:text="${project.name}">프로젝트명</h3>
+            <p><strong>기간:</strong> <span th:text="${project.period}">2023.01 ~ 2023.06</span></p>
+            <p><strong>설명:</strong> <span th:text="${project.description}">설명...</span></p>
+            <ul>
+                <li th:each="task : ${project.tasks}" th:text="${task}">한 일</li>
+            </ul>
+            <p><strong>기술:</strong> <span th:text="${project.stack}">Java, Spring Boot, MySQL</span></p>
+        </div>
+    </section>
+
+    <section>
+        <h2>🎓 학력</h2>
+        <ul>
+            <li th:each="edu : ${education}">
+                <span th:text="${edu.school}">대학교</span> – <span th:text="${edu.degree}">컴퓨터공학과</span> (<span th:text="${edu.period}">2017~2021</span>)
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>💼 경력</h2>
+        <ul>
+            <li th:each="exp : ${experiences}">
+                <span th:text="${exp.company}">회사명</span> – <span th:text="${exp.role}">직무</span> (<span th:text="${exp.period}">2022~2023</span>)
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>🏆 수상 및 자격증</h2>
+        <ul>
+            <li th:each="award : ${awards}" th:text="${award}">정보처리기사</li>
+        </ul>
+    </section>
+</div>
 </body>
 </html>
