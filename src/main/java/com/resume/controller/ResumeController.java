@@ -2,7 +2,6 @@ package com.resume.controller;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.ast.Node;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,7 @@ public class ResumeController {
 
     @GetMapping("/resume/html")
     public String getResumeHtml() throws Exception {
-        String markdown = Files.readString(Path.of("resume.md"));
+        String markdown = Files.readString(Path.of("index.html"));
         Node document = parser.parse(markdown);
         return renderer.render(document);
     }
